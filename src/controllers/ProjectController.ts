@@ -16,6 +16,30 @@ export class ProjectController {
     }
 
     static getAllProjects = async (req: Request, res: Response) => {
-        res.send('All projects')
+        try {
+            const projects = await Project.find({}) /* Get all projects from the database */
+            res.json(projects)
+        } catch (error) {
+            console.error(error)   
+        }
+    }
+
+    static getProjectById = async (req: Request, res: Response) => {
+        const { id } = req.params
+        try {
+            const project = await Project.findById(id) /* Get project by ID */
+
+            /* If project is not found, return 404 */
+            if (!project) { 
+                const error = new Error('Project not found')
+                res.status(404).json({error: error.message})
+                return
+            }
+            /* If project is found, return the project */
+            res.json(project)
+            return
+        } catch (error) {
+            console.error(error)
+        }
     }
 }
