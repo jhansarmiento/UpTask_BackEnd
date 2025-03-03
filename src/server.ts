@@ -10,6 +10,8 @@ connectDB()
 
 const app = express()
 
+app.use(express.json()) /* Middleware to parse JSON data */
+
 /* Routes */
 app.use('/api/projects', projectRoutes)
 
