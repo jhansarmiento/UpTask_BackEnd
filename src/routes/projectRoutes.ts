@@ -33,4 +33,25 @@ router.get('/:id',
     ProjectController.getProjectById
 )
 
+/* Update project */
+router.put('/:id', 
+    param('id')
+        .isMongoId().withMessage('Invalid project ID'),
+    body('projectName')
+        .notEmpty().withMessage('Project name is required'),
+    body('clientName')
+        .notEmpty().withMessage('Client name is required'),
+    body('description')
+        .notEmpty().withMessage('Description is required'),
+    handleInputErrors,
+    ProjectController.updateProject
+)
+
+router.delete('/:id', 
+    param('id')
+        .isMongoId().withMessage('Invalid project ID'),
+    handleInputErrors,
+    ProjectController.deleteProject
+)
+
 export default router

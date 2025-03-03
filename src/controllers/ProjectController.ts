@@ -42,4 +42,41 @@ export class ProjectController {
             console.error(error)
         }
     }
+
+    static updateProject = async (req: Request, res: Response) => {
+        const { id } = req.params
+        try {
+            const project = await Project.findByIdAndUpdate(id, req.body) /* Find project by ID and update */
+
+            if (!project) { 
+                const error = new Error('Project not found')
+                res.status(404).json({error: error.message})
+                return
+            }
+
+            await project.save() /* Save the updated project */
+            res.send('Project updated')
+            
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    static deleteProject = async (req: Request, res: Response) => {
+        const { id } = req.params
+        try {
+            const project = await Project.findById(id) /* Find project by ID and delete */
+
+            if (!project) { 
+                const error = new Error('Project not found')
+                res.status(404).json({error: error.message})
+                return
+            }
+
+            await project.deleteOne() /* Deletes the project */
+            res.send('Project deleted')
+        } catch (error) {
+            console.error(error)
+        }
+    }
 }
